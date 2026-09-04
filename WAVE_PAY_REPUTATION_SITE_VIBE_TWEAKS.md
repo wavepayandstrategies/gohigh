@@ -1,8 +1,23 @@
-# REVIEW HARVEST — VIBE CODER TWEAK BRIEF
+# WAVE PAY & STRATEGIES — REPUTATION SITE VIBE CODER TWEAK BRIEF
 
-Paste this alongside the exported page code into GoHighLevel's Vibe Coder. It tells the AI builder exactly how to re-skin the existing "Review Harvest" review-reputation landing page (hero → footer, same sections/copy structure) into the **Wave Pay & Strategies "deep ocean at night"** look defined in `STYLE_BLUEPRINT.md`. Keep the current section order and form logic — only restyle colors, type, motion, and card treatment as below.
+Paste this alongside the exported page code into GoHighLevel's Vibe Coder. The page was originally exported under the standalone product name "Review Harvest" — it is being **fully rebranded as a Wave Pay & Strategies property** (see §0) and re-skinned (§1–§6) into the **Wave Pay & Strategies "deep ocean at night"** look defined in `STYLE_BLUEPRINT.md`. Keep the current section order, copy structure, and form logic — restyle colors/type/motion/cards and swap every brand touchpoint as below.
 
 ---
+
+## 0. Rebrand — remove "Review Harvest," apply Wave Pay & Strategies
+
+The export carries "Review Harvest" identity in a handful of places that aren't part of the visible page copy, so they're easy to miss in the Vibe Coder. Go through all of these:
+
+| Field (found in the export) | Current value | New value |
+|---|---|---|
+| Business/company name (used by the popup form's branding + wherever GHL pulls "company name") | `Review Harvest` | `Wave Pay & Strategies` |
+| Business logo | Review Harvest logo image | Wave Pay & Strategies logo — upload your actual logo asset in place of it |
+| Footer copyright line (currently `© Copyright {year}. . All Rights Reserved.` linking to `reviewharvest.com`) | links to `reviewharvest.com` | link to your live Wave Pay & Strategies domain; text reads `© {year} Wave Pay & Strategies. All Rights Reserved.` |
+| Site/funnel domain references | `app.reviewharvest.com` | swap to your Wave Pay & Strategies domain once you know it — flag this as a placeholder to fix in GHL's domain settings, not just page copy |
+| Founder line (not currently present) | — | add once, in the footer near the copyright line: `Noah Nodal · Smart Solutions. Stronger Businesses.` |
+| Page `<title>` / meta description | generic/"Home Clone" internal step naming | set to something like `Wave Pay & Strategies — Reputation Management` (adjust to your actual page purpose/SEO copy) |
+
+Everything else on the page (headings, feature copy, pricing, FAQ) already speaks in first person plural ("we," "our system") and needs no name-swap — it now reads as coming directly from Wave Pay & Strategies once the identity fields above are updated. Treat this reputation-management page as a Wave Pay & Strategies service line, not a separate branded product.
 
 ## 1. Global palette swap
 
@@ -74,12 +89,17 @@ Keep every heading's meaning but lean into the blueprint's vocabulary ("flow," "
 - "Get Started in Three Steps" → "Three Steps to a Stronger Current" (optional — only if it doesn't read as gimmicky next to functional copy like "Sign Up and Customize").
 - Keep all functional/precise copy (pricing, feature descriptions, FAQ answers) as-is — the aquatic metaphor belongs in headlines and section eyebrows, not feature bullet lists or legal/FAQ text.
 
-## 8. Brand-name check (confirm before rebuild)
+## 8. Brand consistency checklist
 
-`STYLE_BLUEPRINT.md`'s brand rules ("Always 'Wave Pay & Strategies' — never a dash separator," "Founder: Noah Nodal · 'Smart Solutions. Stronger Businesses.'") apply to the parent company. This export is branded as its own product, **"Review Harvest"** (page title, footer copyright link to reviewharvest.com). This brief assumes you're keeping "Review Harvest" as the product name and applying Wave Pay's *visual design system* to it (same way a company skins a sub-product), not renaming the product itself or replacing the footer/copyright/founder line. If the product should actually be re-branded as a Wave Pay & Strategies property (name, footer, links all swapped), say so and I'll extend this brief with the exact copy changes.
+Before calling the rebuild done, confirm every one of these against `STYLE_BLUEPRINT.md`'s brand rules:
+
+- [ ] "Wave Pay & Strategies" is spelled out in full everywhere, never abbreviated, never with a dash (`Wave Pay – Strategies` / `Wave Pay - Strategies` are both wrong).
+- [ ] No mention of "financing" as an offering anywhere in the page copy, pricing plans, or FAQ.
+- [ ] Founder line "Noah Nodal · Smart Solutions. Stronger Businesses." appears once, in the footer.
+- [ ] No leftover "Review Harvest" text, logo, or reviewharvest.com link anywhere (check page `<title>`, meta tags, footer, and the popup form's company/logo fields — GHL stores those separately from the visible page copy, so they're easy to miss).
 
 ---
 
 ### One-paragraph version to paste straight into the Vibe Coder chat
 
-> Restyle this page into a "deep ocean at night" luxury look: dark navy-black background (#030810 base, #060c18/#0c1828 for alternating sections), bright turquoise accent (#2ab8d4, glow #4dd9ef) on all buttons/links/icons, muted gold (#c9a96e) used sparingly for one accent per section, soft white body text (rgba(255,255,255,0.86) headings, 0.62 body). Headings in Cormorant Garamond, weight 300, with the key phrase italicized; body and small uppercase eyebrow labels (0.24–0.32em letter-spacing) in Montserrat. Turn every card (feature blocks, testimonials, pricing columns, stat tiles) into a glassmorphic panel: rgba(8,18,32,0.65) background, 1px teal border rgba(42,184,212,0.14), 14px radius, subtle blur, with a gentle lift + teal glow on hover — same lift+glow treatment on all buttons (turquoise fill, dark navy text). Slow all entrance/scroll animations to a 0.9s fade-up. Restyle the lead-capture form to match: transparent dark inputs with teal focus glow, tiny uppercase dim labels, teal submit button, teal-tinted success message — but keep the mobile phone/country-code dropdown solid and opaque (not translucent) so it stays readable. Keep all copy, layout, and section order as-is except: lightly weave in aquatic language ("flow," "seamless," "deep," "tide") in headlines and section eyebrows only, not in feature/FAQ body copy.
+> First, rebrand this page from "Review Harvest" to "Wave Pay & Strategies": update the business/company name, logo, footer copyright (swap the reviewharvest.com link for our own domain), and add a footer line "Noah Nodal · Smart Solutions. Stronger Businesses." — never abbreviate the name or use a dash separator, and make sure no "financing" language appears anywhere. Then restyle the page into a "deep ocean at night" luxury look: dark navy-black background (#030810 base, #060c18/#0c1828 for alternating sections), bright turquoise accent (#2ab8d4, glow #4dd9ef) on all buttons/links/icons, muted gold (#c9a96e) used sparingly for one accent per section, soft white body text (rgba(255,255,255,0.86) headings, 0.62 body). Headings in Cormorant Garamond, weight 300, with the key phrase italicized; body and small uppercase eyebrow labels (0.24–0.32em letter-spacing) in Montserrat. Turn every card (feature blocks, testimonials, pricing columns, stat tiles) into a glassmorphic panel: rgba(8,18,32,0.65) background, 1px teal border rgba(42,184,212,0.14), 14px radius, subtle blur, with a gentle lift + teal glow on hover — same lift+glow treatment on all buttons (turquoise fill, dark navy text). Slow all entrance/scroll animations to a 0.9s fade-up. Restyle the lead-capture form to match: transparent dark inputs with teal focus glow, tiny uppercase dim labels, teal submit button, teal-tinted success message — but keep the mobile phone/country-code dropdown solid and opaque (not translucent) so it stays readable. Keep all copy, layout, and section order as-is except: lightly weave in aquatic language ("flow," "seamless," "deep," "tide") in headlines and section eyebrows only, not in feature/FAQ body copy.
