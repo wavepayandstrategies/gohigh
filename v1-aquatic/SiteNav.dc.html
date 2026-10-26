@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&amp;family=Montserrat:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+</helmet>
+<nav ref="{{ navRef }}" aria-label="Main" style="position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:1px solid transparent;font-family:'Montserrat',sans-serif;transition:background .4s cubic-bezier(0.22,0.61,0.36,1),border-color .4s">
+  <div style="max-width:1200px;margin:0 auto;padding:18px clamp(20px,4vw,40px);display:flex;align-items:center;justify-content:space-between;gap:20px">
+    <a href="home.dc.html" aria-label="Wave Pay &amp; Strategies home" style="display:flex;align-items:baseline;gap:7px;font-family:'Cormorant Garamond',serif;font-weight:600;color:#fff;white-space:nowrap;text-decoration:none">
+      <span style="font-size:1.15rem;letter-spacing:0.1em">WAVE PAY</span>
+      <span style="font-size:0.9rem;color:#4dd9ef">&amp;</span>
+      <span style="font-size:0.72rem;letter-spacing:0.18em;color:rgba(255,255,255,0.62)">STRATEGIES</span>
+    </a>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;align-items:center;gap:2px;padding:5px 8px;background:rgba(3,8,16,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(42,184,212,0.14);border-radius:40px">
+        <div onMouseEnter="{{ openDd }}" onMouseLeave="{{ closeDd }}" style="position:relative">
+          <a href="services.dc.html" style="display:flex;align-items:center;gap:6px;padding:9px 14px;font-size:0.64rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:{{ servicesColor }};text-decoration:none"><span>Services</span><span style="font-size:0.6rem;opacity:0.7">▾</span></a>
+          <sc-if value="{{ ddOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:100%;left:-8px;padding-top:12px">
+              <div style="width:330px;padding:10px;background:rgba(3,8,16,0.97);border:1px solid rgba(42,184,212,0.32);border-radius:14px;box-shadow:0 30px 70px rgba(0,0,0,0.6)">
+                <sc-for list="{{ services }}" as="s" hint-placeholder-count="6">
+                  <a href="{{ s.href }}" style="display:flex;flex-direction:column;gap:3px;padding:11px 14px;border-radius:8px;text-decoration:none" style-hover="background:rgba(42,184,212,0.08)">
+                    <span style="font-family:'Cormorant Garamond',serif;font-size:1.12rem;color:{{ s.color }}">{{ s.label }}</span>
+                    <span style="font-size:0.7rem;color:rgba(255,255,255,0.62)">{{ s.blurb }}</span>
+                  </a>
+                </sc-for>
+                <a href="services.dc.html" style="display:block;margin-top:6px;padding:12px 14px;border-top:1px solid rgba(42,184,212,0.14);font-size:0.6rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#2ab8d4;text-decoration:none">All services →</a>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+        <sc-for list="{{ links }}" as="l" hint-placeholder-count="4">
+          <a href="{{ l.href }}" style="padding:9px 14px;font-size:0.64rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:{{ l.color }};white-space:nowrap;text-decoration:none" style-hover="color:#4dd9ef">{{ l.label }}</a>
+        </sc-for>
+      </div>
+      <a href="contact.dc.html" style="padding:12px 22px;font-size:0.64rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#030810;background:#2ab8d4;border-radius:4px;white-space:nowrap;text-decoration:none;transition:all .3s cubic-bezier(0.22,0.61,0.36,1)" style-hover="background:#4dd9ef;color:#030810;transform:translateY(-3px);box-shadow:0 10px 30px rgba(77,217,239,0.32)">Free Quote</a>
+    </sc-if>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ toggleMenu }}" aria-label="Menu" aria-expanded="{{ menuOpen }}" style="background:none;border:0;padding:10px;cursor:pointer;display:flex;flex-direction:column;gap:5px">
+        <span style="display:block;width:26px;height:2px;border-radius:2px;background:#4dd9ef;box-shadow:0 0 6px rgba(77,217,239,0.5)"></span>
+        <span style="display:block;width:26px;height:2px;border-radius:2px;background:#4dd9ef;box-shadow:0 0 6px rgba(77,217,239,0.5)"></span>
+        <span style="display:block;width:26px;height:2px;border-radius:2px;background:#4dd9ef;box-shadow:0 0 6px rgba(77,217,239,0.5)"></span>
+      </button>
+    </sc-if>
+  </div>
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;top:72px;left:0;right:0;max-height:calc(100vh - 72px);overflow-y:auto;background:rgba(3,8,16,0.99);border-top:1px solid rgba(42,184,212,0.32);border-bottom:1px solid rgba(42,184,212,0.32);box-shadow:0 32px 60px rgba(0,0,0,0.75);padding:12px 24px 28px;display:flex;flex-direction:column">
+      <span style="padding:14px 4px 6px;font-size:0.58rem;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;color:#2ab8d4">Services</span>
+      <sc-for list="{{ services }}" as="s" hint-placeholder-count="6">
+        <a href="{{ s.href }}" style="padding:14px 4px;font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:#fff;border-bottom:1px solid rgba(42,184,212,0.14);text-decoration:none">{{ s.label }}</a>
+      </sc-for>
+      <a href="services.dc.html" style="padding:14px 4px;font-size:0.66rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#4dd9ef;border-bottom:1px solid rgba(42,184,212,0.14);text-decoration:none">All services →</a>
+      <a href="about.dc.html" style="padding:16px 4px;font-size:0.86rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#fff;border-bottom:1px solid rgba(42,184,212,0.14);text-decoration:none">About</a>
+      <a href="contact.dc.html" style="padding:16px 4px;font-size:0.86rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#fff;text-decoration:none">Contact</a>
+      <a href="contact.dc.html" style="margin-top:18px;padding:15px;text-align:center;font-size:0.72rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#030810;background:#2ab8d4;border-radius:4px;text-decoration:none">Get a Free Quote</a>
+    </div>
+  </sc-if>
+</nav>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;420px&quot;},&quot;active&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;services&quot;,&quot;merchant&quot;,&quot;web&quot;,&quot;seo&quot;,&quot;reviews&quot;,&quot;ads&quot;,&quot;social&quot;,&quot;about&quot;,&quot;contact&quot;],&quot;default&quot;:&quot;home&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { w: window.innerWidth, menuOpen: false, dd: false };
+  navRef = React.createRef();
+  componentDidMount() {
+    this.onResize = () => this.setState({ w: window.innerWidth });
+    this.onScroll = () => {
+      const n = this.navRef.current; if (!n) return;
+      const s = window.scrollY > 50 || this.state.menuOpen;
+      n.style.background = s ? 'rgba(3,8,16,0.94)' : 'transparent';
+      n.style.backdropFilter = s ? 'blur(24px)' : 'none';
+      n.style.webkitBackdropFilter = s ? 'blur(24px)' : 'none';
+      n.style.borderBottomColor = s ? 'rgba(42,184,212,0.14)' : 'transparent';
+    };
+    window.addEventListener('resize', this.onResize);
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    this.onScroll();
+    // sitewide scroll reveal for any [data-reveal] element
+    this.io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target, d = +el.getAttribute('data-delay') || 0;
+      setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, d);
+      this.io.unobserve(el);
+    }), { threshold: 0.1 });
+    const prep = el => {
+      if (el.__wp) return; el.__wp = 1;
+      el.style.opacity = '0'; el.style.transform = 'translateY(44px)';
+      el.style.transition = 'opacity .9s cubic-bezier(0.22,0.61,0.36,1), transform .9s cubic-bezier(0.22,0.61,0.36,1)';
+      this.io.observe(el);
+    };
+    const scan = () => document.querySelectorAll('[data-reveal]').forEach(prep);
+    scan();
+    this.mo = new MutationObserver(scan);
+    this.mo.observe(document.body, { childList: true, subtree: true });
+  }
+  componentDidUpdate() { this.onScroll && this.onScroll(); }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize); window.removeEventListener('scroll', this.onScroll);
+    this.io && this.io.disconnect(); this.mo && this.mo.disconnect();
+  }
+  renderVals() {
+    const active = this.props.active || '';
+    const isDesktop = this.state.w > 1100;
+    const on = '#4dd9ef', off = 'rgba(255,255,255,0.86)';
+    const services = [
+      ['merchant', 'Merchant Services', 'merchant-services.dc.html', 'Payment processing, POS and invoicing'],
+      ['web', 'Website Design', 'website-design.dc.html', 'Fast, mobile first sites that convert'],
+      ['seo', 'Local SEO', 'local-seo.dc.html', 'Rank in the Google map pack'],
+      ['reviews', 'Review Automation', 'review-automation.dc.html', 'More five star Google reviews'],
+      ['ads', 'Google Ads Management', 'google-ads.dc.html', 'Paid search that pays back'],
+      ['social', 'Social Media Marketing', 'social-media.dc.html', 'Consistent, local social content']
+    ].map(([k, label, href, blurb]) => ({ label, href, blurb, color: active === k ? on : '#fff' }));
+    const links = [['merchant', 'Merchant Services', 'merchant-services.dc.html'], ['web', 'Website Design', 'website-design.dc.html'], ['seo', 'Local SEO', 'local-seo.dc.html'], ['about', 'About', 'about.dc.html']]
+      .map(([k, label, href]) => ({ label, href, color: active === k ? on : off }));
+    return {
+      navRef: this.navRef, isDesktop, isMobile: !isDesktop, menuOpen: !isDesktop && this.state.menuOpen,
+      ddOpen: this.state.dd, openDd: () => this.setState({ dd: true }), closeDd: () => this.setState({ dd: false }),
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      servicesColor: ['services', 'reviews', 'ads', 'social'].includes(active) ? on : off,
+      services, links
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&amp;family=Montserrat:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+</helmet>
+<section style="position:relative;padding:clamp(90px,11vw,140px) 0;font-family:'Montserrat',sans-serif;text-align:center;overflow:hidden;background:linear-gradient(180deg, rgba(3,8,16,0.7) 0%, rgba(6,22,36,0.55) 50%, rgba(3,8,16,0.9) 100%), url('https://vibe.filesafe.space/1787700865853874002/attachments/5ce77725-643e-4b94-bf6d-f9658ba08844.jpg') center / cover no-repeat, #060c18;border-top:1px solid rgba(42,184,212,0.14)">
+  <div data-reveal="" style="position:relative;max-width:760px;margin:0 auto;padding:0 clamp(20px,4vw,40px);display:flex;flex-direction:column;align-items:center">
+    <div style="font-size:0.66rem;font-weight:500;letter-spacing:0.32em;text-transform:uppercase;color:#4dd9ef;margin-bottom:20px">{{ eyebrow }}</div>
+    <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.4rem,5vw,4.2rem);line-height:1.05;letter-spacing:-0.01em;color:#fff;text-wrap:balance">{{ title }} <em style="color:#2ab8d4">{{ emph }}</em></h2>
+    <p style="margin:22px 0 0;max-width:560px;font-size:1rem;line-height:1.85;color:rgba(255,255,255,0.86);text-wrap:pretty">{{ body }}</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:40px">
+      <a href="{{ href }}" style="padding:15px 34px;font-size:0.68rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:#030810;background:#2ab8d4;border-radius:4px;text-decoration:none;transition:all .3s cubic-bezier(0.22,0.61,0.36,1)" style-hover="background:#4dd9ef;color:#030810;transform:translateY(-3px);box-shadow:0 14px 44px rgba(77,217,239,0.32)">{{ button }}</a>
+      <a href="tel:+19043738591" style="padding:15px 34px;font-size:0.68rem;font-weight:400;letter-spacing:0.22em;text-transform:uppercase;color:#fff;border:1px solid rgba(255,255,255,0.22);border-radius:4px;text-decoration:none;transition:all .3s cubic-bezier(0.22,0.61,0.36,1)" style-hover="color:#4dd9ef;border-color:#4dd9ef;transform:translateY(-3px)">Call 904-373-8591</a>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;520px&quot;},&quot;eyebrow&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Next Step&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;title&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Let's get your business&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;emph&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;flowing&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;body&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Tell us where you are today and we will come back with a clear, no pressure plan.&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;button&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Book a Call&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;href&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;contact.dc.html&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    return {
+      eyebrow: p.eyebrow ?? 'Next Step', title: p.title ?? "Let's get your business", emph: p.emph ?? 'flowing',
+      body: p.body ?? 'Tell us where you are today and we will come back with a clear, no pressure plan.',
+      button: p.button ?? 'Book a Call', href: p.href ?? 'contact.dc.html'
+    };
+  }
+}
+</script>
+</body>
+</html>

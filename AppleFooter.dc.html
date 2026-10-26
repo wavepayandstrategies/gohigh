@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<footer style="background:#000;border-top:1px solid rgba(255,255,255,0.1);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',system-ui,sans-serif;color:rgba(255,255,255,0.64)">
+  <div style="max-width:1080px;margin:0 auto;padding:56px 22px 28px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:36px;padding-bottom:40px">
+      <sc-for list="{{ cols }}" as="col" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:0.75rem;font-weight:600;color:#fff;margin-bottom:4px">{{ col.title }}</span>
+          <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="3">
+            <a href="{{ l.href }}" style="font-size:0.75rem;color:rgba(255,255,255,0.64);text-decoration:none;transition:color .2s" style-hover="color:#fff">{{ l.label }}</a>
+          </sc-for>
+        </div>
+      </sc-for>
+    </div>
+    <p style="margin:0;padding:20px 0;border-top:1px solid rgba(255,255,255,0.1);font-size:0.75rem;line-height:1.6;color:rgba(255,255,255,0.64);text-wrap:pretty">Nodal Coastal Collective LLC dba Wave Pay &amp; Strategies, 90 Farragut Drive, Palm Coast, FL 32137. Serving Flagler County, St. Augustine, Daytona Beach, Jacksonville and Orlando.</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:0.75rem">
+      <span>Copyright © 2026 Wave Pay &amp; Strategies. All rights reserved.</span>
+      <div style="display:flex;gap:18px">
+        <a href="#" style="color:rgba(255,255,255,0.64);text-decoration:none" style-hover="color:#fff">Privacy Policy</a>
+        <a href="#" style="color:rgba(255,255,255,0.64);text-decoration:none" style-hover="color:#fff">Terms of Use</a>
+      </div>
+    </div>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;380px&quot;}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    if (document.getElementById('wp-localbusiness')) return;
+    const s = document.createElement('script'); s.type = 'application/ld+json'; s.id = 'wp-localbusiness';
+    s.text = JSON.stringify({ '@context': 'https://schema.org', '@type': 'LocalBusiness', name: 'Wave Pay & Strategies', slogan: 'Where Business Flows', url: 'https://wavepayandstrategies.com', telephone: '+1-904-373-8591', email: 'info@wavepayandstrategies.com', founder: { '@type': 'Person', name: 'Noah Nodal' }, legalName: 'Nodal Coastal Collective LLC', address: { '@type': 'PostalAddress', streetAddress: '90 Farragut Drive', postalCode: '32137', addressLocality: 'Palm Coast', addressRegion: 'FL', addressCountry: 'US' }, areaServed: ['Palm Coast, FL', 'Flagler County, FL', 'St. Augustine, FL', 'Daytona Beach, FL', 'Jacksonville, FL', 'Orlando, FL'] });
+    document.head.appendChild(s);
+  }
+  renderVals() {
+    const L = a => a.map(([label, href]) => ({ label, href }));
+    return { cols: [
+      { title: 'Core Services', links: L([['Merchant Services', 'merchant-services.dc.html'], ['Website Design', 'website-design.dc.html'], ['Local SEO', 'local-seo.dc.html']]) },
+      { title: 'Growth Services', links: L([['Review Automation', 'review-automation.dc.html'], ['Google Ads Management', 'google-ads.dc.html'], ['Social Media Marketing', 'social-media.dc.html']]) },
+      { title: 'Company', links: L([['All Services', 'services.dc.html'], ['About', 'about.dc.html'], ['Contact', 'contact.dc.html']]) },
+      { title: 'Get in Touch', links: L([['904-373-8591', 'tel:+19043738591'], ['info@wavepayandstrategies.com', 'mailto:info@wavepayandstrategies.com'], ['Instagram', '#'], ['Facebook', '#'], ['LinkedIn', '#']]) }
+    ] };
+  }
+}
+</script>
+</body>
+</html>

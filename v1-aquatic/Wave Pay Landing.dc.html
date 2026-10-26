@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&amp;family=Montserrat:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:#030810;color:rgba(255,255,255,0.86);font-family:'Montserrat',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#2ab8d4;text-decoration:none;transition:color .3s cubic-bezier(0.22,0.61,0.36,1)}
+a:hover{color:#4dd9ef}
+::selection{background:rgba(42,184,212,0.35);color:#fff}
+input,select,textarea,button{font-family:inherit}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#2ab8d4 !important;box-shadow:0 0 0 3px rgba(42,184,212,0.18)}
+:focus-visible{outline:2px solid #2ab8d4;outline-offset:2px}
+select option{background:#0c1828;color:#fff}
+@keyframes wpMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes wpPulse{0%,100%{box-shadow:0 0 0 0 rgba(77,217,239,0.6)}50%{box-shadow:0 0 0 7px rgba(77,217,239,0)}}
+@keyframes wpCue{0%{transform:translateY(0);opacity:0}30%{opacity:1}100%{transform:translateY(16px);opacity:0}}
+@keyframes wpType{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+@keyframes wpFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes wpScroll{0%,100%{opacity:1;transform:scaleY(1)}50%{opacity:.25;transform:scaleY(.4)}}
+@keyframes wpBubble{0%{transform:translateY(110vh) translateX(0) scale(0.8);opacity:0}10%{opacity:0.8}85%{opacity:0.5}100%{transform:translateY(-10vh) translateX(30px) scale(1);opacity:0}}
+</style>
+</helmet>
+
+<div style="background:#030810;min-height:100vh;overflow-x:hidden;position:relative">
+
+<nav ref="{{ navRef }}" style="position:fixed;top:0;left:0;right:0;z-index:50;border-bottom:1px solid transparent;transition:background .5s cubic-bezier(0.22,0.61,0.36,1),border-color .5s">
+  <div style="max-width:1200px;margin:0 auto;padding:18px clamp(20px,4vw,40px);display:flex;align-items:center;justify-content:space-between;gap:24px">
+    <a href="#top" style="display:flex;align-items:baseline;gap:7px;font-family:'Cormorant Garamond',serif;font-weight:600;color:#fff">
+      <span style="font-size:1.15rem;letter-spacing:0.1em">WAVE PAY</span>
+      <span style="font-size:0.9rem;color:#4dd9ef">&amp;</span>
+      <span style="font-size:0.72rem;letter-spacing:0.18em;color:rgba(255,255,255,0.62)">STRATEGIES</span>
+    </a>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;align-items:center;gap:6px;padding:6px;background:rgba(3,8,16,0.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(42,184,212,0.14);border-radius:40px">
+        <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="5">
+          <a href="{{ item.href }}" style="padding:9px 16px;font-size:0.66rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:{{ item.color }};border-radius:40px">{{ item.label }}</a>
+        </sc-for>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <a href="https://review.wavepayandstrategies.com" target="_blank" rel="noopener" style="padding:12px 18px;font-size:0.64rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#4dd9ef;border:1px solid rgba(42,184,212,0.32);border-radius:4px" style-hover="color:#030810;border-color:#4dd9ef;background:#4dd9ef">Reputation Management</a>
+        <a href="#contact" style="padding:13px 22px;font-size:0.64rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#030810;background:#2ab8d4;border-radius:4px;transition:all .4s cubic-bezier(0.22,0.61,0.36,1)" style-hover="background:#4dd9ef;color:#030810;transform:translateY(-3px);box-shadow:0 10px 30px rgba(42,184,212,0.35)">Get Started</a>
+      </div>
+    </sc-if>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ toggleMenu }}" aria-label="Menu" style="background:none;border:0;padding:10px;cursor:pointer;display:flex;flex-direction:column;gap:6px">
+        <span style="display:block;width:26px;height:2px;background:#4dd9ef;box-shadow:0 0 8px rgba(77,217,239,0.7)"></span>
+        <span style="display:block;width:26px;height:2px;background:#4dd9ef;box-shadow:0 0 8px rgba(77,217,239,0.7)"></span>
+        <span style="display:block;width:18px;height:2px;background:#4dd9ef;box-shadow:0 0 8px rgba(77,217,239,0.7);align-self:flex-end"></span>
+      </button>
+    </sc-if>
+  </div>
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;top:76px;left:0;right:0;background:rgba(3,8,16,0.97);border-bottom:1px solid rgba(42,184,212,0.32);padding:24px 20px 32px;display:flex;flex-direction:column;gap:4px">
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="5">
+        <a href="{{ item.href }}" onClick="{{ closeMenu }}" style="padding:16px 4px;font-size:0.9rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:#fff;border-bottom:1px solid rgba(42,184,212,0.14)">{{ item.label }}</a>
+      </sc-for>
+      <a href="https://review.wavepayandstrategies.com" target="_blank" rel="noopener" style="padding:16px 4px;font-size:0.9rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:#4dd9ef">Reputation Management ↗</a>
+      <a href="#contact" onClick="{{ closeMenu }}" style="margin-top:20px;padding:16px;text-align:center;font-size:0.72rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:#030810;background:#2ab8d4;border-radius:4px">Get Started</a>
+    </div>
+  </sc-if>
+</nav>
+
+<header id="top" style="position:relative;height:100vh;min-height:720px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(180deg, rgba(2,6,14,0.45) 0%, rgba(4,16,28,0.35) 30%, rgba(6,22,36,0.55) 70%, rgba(3,8,18,0.75) 100%), url('https://vibe.filesafe.space/1787700865853874002/attachments/5ce77725-643e-4b94-bf6d-f9658ba08844.jpg') center center / cover no-repeat, #030810">
+  <div style="position:absolute;top:-10%;left:18%;width:14%;height:120%;background:linear-gradient(180deg, rgba(142,245,255,0.10), transparent 70%);transform:skewX(-14deg);filter:blur(18px);pointer-events:none"></div>
+  <div style="position:absolute;top:-10%;left:46%;width:8%;height:110%;background:linear-gradient(180deg, rgba(142,245,255,0.08), transparent 65%);transform:skewX(-10deg);filter:blur(14px);pointer-events:none"></div>
+  <div style="position:absolute;top:-10%;left:66%;width:12%;height:120%;background:linear-gradient(180deg, rgba(142,245,255,0.07), transparent 70%);transform:skewX(-18deg);filter:blur(20px);pointer-events:none"></div>
+  <div style="position:absolute;bottom:14%;left:12%;width:340px;height:120px;border-radius:50%;background:radial-gradient(ellipse, rgba(77,217,239,0.12), transparent 70%);filter:blur(10px);pointer-events:none"></div>
+  <div style="position:absolute;bottom:20%;right:10%;width:420px;height:140px;border-radius:50%;background:radial-gradient(ellipse, rgba(77,217,239,0.09), transparent 70%);filter:blur(12px);pointer-events:none"></div>
+  <canvas ref="{{ canvasRef }}" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0.35"></canvas>
+  <div ref="{{ bubbleRef }}" style="position:absolute;inset:0;pointer-events:none;overflow:hidden"></div>
+  <div style="position:absolute;top:0;left:0;right:0;height:30%;background:linear-gradient(180deg, rgba(100,200,220,0.12) 0%, rgba(50,150,180,0.06) 40%, transparent 100%);pointer-events:none"></div>
+  <div style="position:absolute;bottom:0;left:0;right:0;height:35%;background:linear-gradient(0deg, rgba(2,6,14,0.7) 0%, transparent 100%);pointer-events:none"></div>
+
+  <div style="position:relative;z-index:2;text-align:center;padding:0 20px;max-width:1000px;display:flex;flex-direction:column;align-items:center">
+    <div data-reveal="" data-delay="200" style="font-size:clamp(0.78rem,1.2vw,1rem);letter-spacing:0.4em;text-transform:uppercase;color:#4dd9ef;margin-bottom:24px">Payments · POS · AI CRM Strategy</div>
+    <h1 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(3.5rem,10vw,8.5rem);line-height:0.88;letter-spacing:-0.02em;color:#fff">
+      <span data-reveal="" data-delay="400" style="display:block">Wave Pay</span>
+      <span data-reveal="" data-delay="600" style="display:block;font-style:italic;color:#2ab8d4;font-size:0.6em;letter-spacing:0.08em;margin-top:8px">&amp; Strategies</span>
+    </h1>
+    <div data-reveal="" data-delay="800" style="display:flex;align-items:center;gap:18px;margin-top:34px">
+      <span style="width:80px;height:1px;background:#2ab8d4;opacity:0.5"></span>
+      <span style="font-size:clamp(0.72rem,1.1vw,1rem);letter-spacing:0.5em;text-transform:uppercase;color:#4dd9ef">Where Business Flows</span>
+      <span style="width:80px;height:1px;background:#2ab8d4;opacity:0.5"></span>
+    </div>
+    <p data-reveal="" data-delay="1000" style="margin:28px 0 0;max-width:560px;font-size:clamp(1rem,1.4vw,1.2rem);letter-spacing:0.02em;line-height:1.8;color:rgba(255,255,255,0.86);text-wrap:pretty">Merchant services, POS systems and AI powered CRM strategy in one current. Every sale, every follow up, every customer, moving like water.</p>
+    <div data-reveal="" data-delay="1200" style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:44px">
+      <a href="#contact" style="padding:13px 34px;font-size:0.68rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:#030810;background:#2ab8d4;border:1px solid transparent;border-radius:4px;transition:all .3s cubic-bezier(0.22,0.61,0.36,1)" style-hover="background:#4dd9ef;color:#030810;transform:translateY(-3px);box-shadow:0 14px 44px rgba(77,217,239,0.32)">Start Accepting</a>
+      <a href="#services" style="padding:13px 34px;font-size:0.68rem;font-weight:400;letter-spacing:0.22em;text-transform:uppercase;color:#fff;border:1px solid rgba(255,255,255,0.22);border-radius:4px;transition:all .3s cubic-bezier(0.22,0.61,0.36,1)" style-hover="color:#4dd9ef;border-color:#4dd9ef;transform:translateY(-3px)">Explore Services</a>
+    </div>
+  </div>
+  <a href="#intro" data-reveal="" data-delay="1800" style="position:absolute;bottom:36px;left:50%;margin-left:-40px;width:80px;z-index:2;display:flex;flex-direction:column;align-items:center;gap:12px;color:rgba(255,255,255,0.62);font-size:0.56rem;letter-spacing:0.32em;text-transform:uppercase">
+    <span style="width:1px;height:55px;background:linear-gradient(to bottom, #2ab8d4, transparent);transform-origin:top;animation:wpScroll 2.4s ease-in-out infinite"></span>
+    <span style="font-size:0.55rem;letter-spacing:0.35em">Scroll</span>
+  </a>
+</header>
+
+<div style="background:linear-gradient(90deg, #082030, #0c2a38 50%, #082030);border-top:1px solid rgba(42,184,212,0.14);border-bottom:1px solid rgba(42,184,212,0.14);padding:15px 0;overflow:hidden">{{ marquee }}</div>
+
+<section id="intro" style="padding:clamp(80px,10vw,120px) 0;background:#030810">
+  <div data-reveal="" style="max-width:860px;margin:0 auto;padding:0 clamp(20px,4vw,40px);text-align:center">
+    <div style="font-size:0.68rem;font-weight:500;letter-spacing:0.32em;text-transform:uppercase;color:#2ab8d4;margin-bottom:24px">One Current</div>
+    <p style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(1.8rem,3.4vw,2.8rem);line-height:1.3;color:#fff;text-wrap:pretty">Most businesses run payments in one place and customers in another. We connect the register to the relationship, so revenue and follow ups move together, <em style="color:#2ab8d4">effortlessly</em>.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:40px">
+      <sc-for list="{{ industries }}" as="ind" hint-placeholder-count="6">
+        <span style="font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.86);border:1px solid rgba(42,184,212,0.14);padding:6px 14px;border-radius:20px;transition:all .3s" style-hover="border-color:#2ab8d4;color:#2ab8d4">{{ ind }}</span>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="services" style="padding:clamp(80px,10vw,120px) 0;background:#060c18">
+  <div style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,40px)">
+    <div data-reveal="" style="max-width:580px;margin:0 auto 80px;text-align:center">
+      <div style="font-size:0.68rem;font-weight:500;letter-spacing:0.32em;text-transform:uppercase;color:#2ab8d4;margin-bottom:20px">Services</div>
+      <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.4rem,4.5vw,3.8rem);line-height:1.05;letter-spacing:-0.01em;color:#fff">Everything that keeps revenue <em style="color:#2ab8d4">flowing</em></h2>
+      <p style="margin:22px 0 0;font-size:0.95rem;line-height:1.8;color:rgba(255,255,255,0.62)">Processing, hardware and automation, set up and supported by one team.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:24px">
+      <sc-for list="{{ services }}" as="s" hint-placeholder-count="6">
+        <div data-reveal="" data-delay="{{ s.delay }}">
+          <div style="position:relative;height:100%;padding:44px 36px 40px;border-radius:14px;border:1px solid {{ s.border }};background:radial-gradient(circle at 100% 0%, rgba(42,184,212,0.12), transparent 45%), linear-gradient(160deg, rgba(12,24,40,0.85), rgba(6,12,24,0.92));transition:all .5s cubic-bezier(0.22,0.61,0.36,1)" style-hover="transform:translateY(-8px);border-color:rgba(42,184,212,0.32);box-shadow:0 30px 60px rgba(0,0,0,0.5), 0 0 50px rgba(42,184,212,0.14);background:radial-gradient(circle at 100% 0%, rgba(42,184,212,0.24), transparent 60%), linear-gradient(160deg, rgba(12,24,40,0.9), rgba(6,12,24,0.95))">
+            <sc-if value="{{ s.featured }}" hint-placeholder-val="{{ false }}">
+              <span style="position:absolute;top:22px;right:22px;padding:6px 12px;font-size:0.56rem;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#030810;background:#2ab8d4;border-radius:40px">Most Popular</span>
+            </sc-if>
+            <div style="width:46px;height:46px;color:#2ab8d4;margin-bottom:28px">{{ s.icon }}</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:0.68rem;letter-spacing:0.22em;color:rgba(255,255,255,0.62);margin-bottom:10px">{{ s.num }}</div>
+            <h3 style="margin:0 0 14px;font-family:'Cormorant Garamond',serif;font-weight:400;font-size:1.7rem;line-height:1.15;color:#fff">{{ s.title }}</h3>
+            <p style="margin:0 0 28px;font-size:0.88rem;line-height:1.72;color:rgba(255,255,255,0.86)">{{ s.body }}</p>
+            <a href="#contact" style="display:inline-flex;align-items:center;gap:8px;font-size:0.64rem;letter-spacing:0.2em;text-transform:uppercase;color:#2ab8d4;transition:all .3s" style-hover="color:#4dd9ef;gap:14px"><span>Learn More</span><span>→</span></a>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="payments" style="padding:clamp(80px,10vw,120px) 0;background:#030810">
+  <div style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:clamp(48px,7vw,96px);align-items:center">
+    <div data-reveal="">
+      <div style="font-size:0.68rem;font-weight:500;letter-spacing:0.32em;text-transform:uppercase;color:#2ab8d4;margin-bottom:20px">Payments &amp; POS</div>
+      <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.4rem,4.5vw,3.8rem);line-height:1.05;letter-spacing:-0.01em;color:#fff">Checkout that moves <em style="color:#2ab8d4">like water</em></h2>
+      <p style="margin:24px 0 32px;font-size:0.95rem;line-height:1.85;color:rgba(255,255,255,0.86);max-width:480px">Transparent rates, next day funding and terminals configured before they reach your counter. Tap, chip, swipe, online or on the road.</p>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <sc-for list="{{ payPoints }}" as="p" hint-placeholder-count="4">
+          <div style="display:flex;align-items:center;gap:16px;padding-bottom:16px;border-bottom:1px solid rgba(42,184,212,0.14)">
+            <span style="width:6px;height:6px;border-radius:50%;background:#4dd9ef;box-shadow:0 0 10px #4dd9ef;flex-shrink:0"></span>
+            <span style="font-size:0.9rem;color:rgba(255,255,255,0.86)">{{ p }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div data-reveal="" data-delay="200" style="position:relative;display:flex;justify-content:center;padding:40px 0">
+      <div style="position:absolute;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle, rgba(42,184,212,0.18), transparent 65%);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+      <div style="position:relative;width:260px;padding:18px;border-radius:28px;background:linear-gradient(170deg, #0f1e30, #070e1a);border:1px solid rgba(42,184,212,0.32);box-shadow:0 40px 80px rgba(0,0,0,0.6), 0 0 60px rgba(42,184,212,0.12)">
+        <div style="height:150px;border-radius:14px;background:linear-gradient(150deg, #156070, #082030);padding:18px;display:flex;flex-direction:column;justify-content:space-between">
+          <div style="display:flex;justify-content:space-between;font-size:0.56rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.62)"><span>Wave Pay</span><span>Tap</span></div>
+          <div>
+            <div style="font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;color:#8ef5ff">Total</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:2.6rem;color:#fff;line-height:1">$128.40</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px">
+          <sc-for list="{{ keypad }}" as="k" hint-placeholder-count="12">
+            <div style="height:38px;border-radius:8px;background:rgba(42,184,212,0.06);border:1px solid rgba(42,184,212,0.14);display:flex;align-items:center;justify-content:center;font-size:0.85rem;color:rgba(255,255,255,0.86)">{{ k }}</div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="position:absolute;top:40px;right:max(0px,calc(50% - 230px));padding:12px 16px;border-radius:10px;background:rgba(6,12,24,0.92);border:1px solid rgba(42,184,212,0.32);display:flex;align-items:center;gap:10px;animation:wpFloat 5s ease-in-out infinite;backdrop-filter:blur(10px)">
+        <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 8px rgba(74,222,128,0.6)"></span>
+        <span style="font-size:0.66rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:#fff">Approved</span>
+      </div>
+      <div style="position:absolute;bottom:50px;left:max(0px,calc(50% - 240px));padding:12px 16px;border-radius:10px;background:rgba(6,12,24,0.92);border:1px solid rgba(42,184,212,0.32);animation:wpFloat 6s ease-in-out 1s infinite;backdrop-filter:blur(10px)">
+        <div style="font-size:0.56rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.62)">Funded</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:#4dd9ef">Next day</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div ref="{{ statsRef }}" style="background:linear-gradient(90deg, #082030 0%, rgba(21,96,112,0.45) 50%, #082030 100%);border-top:1px solid rgba(42,184,212,0.14);border-bottom:1px solid rgba(42,184,212,0.14)">
+  <div style="max-width:1200px;margin:0 auto;padding:56px clamp(20px,4vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:40px;text-align:center">
+    <sc-for list="{{ stats }}" as="st" hint-placeholder-count="4">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.6rem,5vw,3.6rem);line-height:1;color:#4dd9ef">{{ st.display }}</div>
+        <div style="margin-top:12px;font-size:0.62rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.86)">{{ st.label }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+
+<section id="crm" style="padding:clamp(80px,10vw,120px) 0;background:#060c18">
+  <div style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:clamp(48px,7vw,96px);align-items:center;direction:rtl">
+    <div data-reveal="" style="direction:ltr">
+      <div style="font-size:0.68rem;font-weight:500;letter-spacing:0.32em;text-transform:uppercase;color:#2ab8d4;margin-bottom:20px">AI CRM &amp; Automation</div>
+      <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.4rem,4.5vw,3.8rem);line-height:1.05;letter-spacing:-0.01em;color:#fff">A pipeline that <em style="color:#2ab8d4">anticipates</em></h2>
+      <p style="margin:24px 0 32px;font-size:0.95rem;line-height:1.85;color:rgba(255,255,255,0.86);max-width:480px">Every lead captured, every follow up sent, every review requested. AI powered workflows answer in real time and hand you the conversations worth having.</p>
+      <div style="display:flex;flex-direction:column;gap:22px">
+        <sc-for list="{{ aiFeatures }}" as="f" hint-placeholder-count="3">
+          <div style="display:flex;gap:18px;align-items:flex-start">
+            <span style="width:40px;height:40px;border-radius:8px;background:rgba(42,184,212,0.09);border:1px solid rgba(42,184,212,0.14);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#4dd9ef;flex-shrink:0">{{ f.icon }}</span>
+            <div>
+              <h4 style="margin:0 0 3px;font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:400;color:#fff">{{ f.title }}</h4>
+              <p style="margin:0;font-size:0.84rem;line-height:1.7;color:rgba(255,255,255,0.62)">{{ f.desc }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div data-reveal="" data-delay="200" style="direction:ltr;position:relative">
+      <div style="border-radius:14px;overflow:hidden;background:linear-gradient(170deg, #0c1828, #060c18);border:1px solid rgba(42,184,212,0.32);box-shadow:0 40px 80px rgba(0,0,0,0.6), 0 0 60px rgba(42,184,212,0.1)">
+        <div style="display:flex;align-items:center;gap:8px;padding:14px 18px;border-bottom:1px solid rgba(42,184,212,0.14)">
+          <span style="width:9px;height:9px;border-radius:50%;background:rgba(42,184,212,0.32)"></span>
+          <span style="width:9px;height:9px;border-radius:50%;background:rgba(42,184,212,0.2)"></span>
+          <span style="width:9px;height:9px;border-radius:50%;background:rgba(42,184,212,0.12)"></span>
+          <span style="margin-left:12px;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.62)">Pipeline · Today</span>
+        </div>
+        <div style="padding:10px 20px">
+          <sc-for list="{{ crmRows }}" as="r" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;margin:0 -10px 6px;border-radius:8px;border:1px solid {{ r.rowBorder }};background:{{ r.rowBg }}">
+              <span style="width:34px;height:34px;border-radius:50%;background:linear-gradient(140deg, #1a8090, #082030);border:1px solid rgba(42,184,212,0.32);display:flex;align-items:center;justify-content:center;font-size:0.66rem;font-weight:600;color:#fff;flex-shrink:0">{{ r.initials }}</span>
+              <div style="flex:1;min-width:0">
+                <div style="font-size:0.84rem;font-weight:500;color:#fff">{{ r.name }}</div>
+                <span style="display:inline-block;margin-top:3px;padding:2px 8px;border-radius:20px;font-size:0.58rem;letter-spacing:0.1em;color:{{ r.fg }};background:{{ r.bg }}">{{ r.status }}</span>
+              </div>
+              <span style="font-family:'Cormorant Garamond',serif;font-size:0.95rem;color:#4dd9ef">{{ r.val }}</span>
+            </div>
+          </sc-for>
+          <div style="display:flex;align-items:center;gap:12px;padding:16px 0 10px">
+            <span style="font-size:0.6rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:#2ab8d4">AI drafting reply</span>
+            <span style="display:flex;gap:4px">
+              <span style="width:5px;height:5px;border-radius:50%;background:#4dd9ef;animation:wpType 1.2s infinite"></span>
+              <span style="width:5px;height:5px;border-radius:50%;background:#4dd9ef;animation:wpType 1.2s .15s infinite"></span>
+              <span style="width:5px;height:5px;border-radius:50%;background:#4dd9ef;animation:wpType 1.2s .3s infinite"></span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="reviews" style="padding:clamp(80px,10vw,120px) 0;background:#060c18">
+  <div style="max-width:1000px;margin:0 auto;padding:0 clamp(20px,4vw,40px)">
+    <div data-reveal="" style="max-width:580px;margin:0 auto 56px;text-align:center">
+      <div style="font-size:0.68rem;font-weight:500;letter-spacing:0.32em;text-transform:uppercase;color:#2ab8d4;margin-bottom:20px">Reviews</div>
+      <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.4rem,4.5vw,3.8rem);line-height:1.05;letter-spacing:-0.01em;color:#fff">Clients who keep <em style="color:#2ab8d4">flowing</em></h2>
+    </div>
+    <div data-reveal="" style="border-radius:14px;overflow:hidden;background:rgba(6,12,24,0.95);border:1px solid rgba(42,184,212,0.32);box-shadow:0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(42,184,212,0.12)">
+      <iframe src="https://reputationhub.site/reputation/widgets/review_widget/UeLEt9NO5rW0V7dULLD9" title="Wave Pay &amp; Strategies customer reviews" loading="lazy" style="display:block;width:100%;min-height:480px;border:0;filter:invert(0.9) hue-rotate(180deg) brightness(1.02) contrast(1.18) saturate(1.15);background-color:transparent"></iframe>
+    </div>
+  </div>
+</section>
+
+<section id="about" style="position:relative;padding:clamp(80px,10vw,120px) 0;background:linear-gradient(180deg, rgba(6,12,24,0.75) 0%, rgba(6,12,24,0.55) 50%, rgba(6,12,24,0.85) 100%), url('https://vibe.filesafe.space/1787700865853874002/attachments/5ce77725-643e-4b94-bf6d-f9658ba08844.jpg') center top / cover no-repeat, #060c18">
+  <div style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(48px,7vw,96px);align-items:center">
+    <div data-reveal="">
+      <div style="font-size:0.68rem;font-weight:500;letter-spacing:0.32em;text-transform:uppercase;color:#2ab8d4;margin-bottom:20px">About</div>
+      <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.4rem,4.5vw,3.8rem);line-height:1.05;letter-spacing:-0.01em;color:#fff">Payments and <em style="color:#2ab8d4">strategies</em>, under one roof</h2>
+      <p style="margin:24px 0 0;font-size:0.95rem;line-height:1.85;color:rgba(255,255,255,0.86);max-width:500px">Wave Pay &amp; Strategies was founded to give owners one partner for the money coming in and the customers behind it. We set it up, we stay on call, and we build for the long term.</p>
+      <div style="display:flex;align-items:center;gap:18px;margin-top:40px">
+        <span style="width:40px;height:1px;background:rgba(42,184,212,0.5)"></span>
+        <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.3rem;color:#fff">Where Business Flows.</span>
+        <span style="width:40px;height:1px;background:rgba(42,184,212,0.5)"></span>
+      </div>
+    </div>
+    <div data-reveal="" data-delay="200" style="padding:clamp(32px,4vw,48px);border-radius:14px;background:linear-gradient(160deg, rgba(12,24,40,0.85), rgba(6,12,24,0.92));border:1px solid rgba(42,184,212,0.32);box-shadow:0 30px 70px rgba(0,0,0,0.5)">
+      <div style="display:flex;align-items:center;gap:20px">
+        <span style="width:72px;height:72px;border-radius:50%;border:1px solid rgba(42,184,212,0.5);background:radial-gradient(circle at 30% 30%, #1a8090, #082030);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:#fff;letter-spacing:0.04em">NN</span>
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.9rem;color:#fff;line-height:1.1">Noah Nodal</div>
+          <div style="margin-top:6px;font-size:0.6rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:#2ab8d4">Founder</div>
+        </div>
+      </div>
+      <p style="margin:30px 0;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.35rem;line-height:1.5;color:#4dd9ef">"Your business should move like water. Our job is to clear the path."</p>
+      <div style="display:flex;flex-direction:column;gap:12px;padding-top:24px;border-top:1px solid rgba(42,184,212,0.14)">
+        <a href="tel:+19043738591" style="font-size:0.88rem;color:rgba(255,255,255,0.86)" style-hover="color:#4dd9ef">+1 904-373-8591</a>
+        <a href="mailto:info@wavepayandstrategies.com" style="font-size:0.88rem;color:rgba(255,255,255,0.86)" style-hover="color:#4dd9ef">info@wavepayandstrategies.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="padding:clamp(80px,10vw,120px) 0;background:#030810">
+  <div style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,40px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(48px,7vw,96px);align-items:start">
+    <div data-reveal="">
+      <div style="font-size:0.68rem;font-weight:500;letter-spacing:0.32em;text-transform:uppercase;color:#2ab8d4;margin-bottom:20px">Contact</div>
+      <h2 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.4rem,4.5vw,3.8rem);line-height:1.05;letter-spacing:-0.01em;color:#fff">Let's get you <em style="color:#2ab8d4">flowing</em></h2>
+      <p style="margin:24px 0 36px;font-size:0.95rem;line-height:1.85;color:rgba(255,255,255,0.86);max-width:440px">Send a few details and we'll review your current rates and setup, then come back with a clear plan.</p>
+      <div style="display:flex;flex-direction:column;gap:22px">
+        <div><div style="font-size:0.58rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.62);margin-bottom:6px">Phone</div><a href="tel:+19043738591" style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:#fff" style-hover="color:#4dd9ef">+1 904-373-8591</a></div>
+        <div><div style="font-size:0.58rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.62);margin-bottom:6px">Email</div><a href="mailto:info@wavepayandstrategies.com" style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:#fff;word-break:break-word" style-hover="color:#4dd9ef">info@wavepayandstrategies.com</a></div>
+        <div>
+          <div style="font-size:0.58rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.62);margin-bottom:12px">Industries We Serve</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <sc-for list="{{ industries }}" as="ind" hint-placeholder-count="6">
+              <span style="font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.86);border:1px solid rgba(42,184,212,0.14);padding:5px 12px;border-radius:20px">{{ ind }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div data-reveal="" data-delay="200" style="padding:clamp(28px,4vw,44px);border-radius:14px;background:linear-gradient(160deg, rgba(12,24,40,0.75), rgba(6,12,24,0.85));border:1px solid rgba(42,184,212,0.14);backdrop-filter:blur(12px)">
+      <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+        <div style="min-height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px">
+          <span style="width:12px;height:12px;border-radius:50%;background:#4dd9ef;animation:wpPulse 2s infinite"></span>
+          <h3 style="margin:0;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:2.4rem;color:#fff">Message received</h3>
+          <p style="margin:0;font-size:0.9rem;color:rgba(255,255,255,0.62);max-width:320px;line-height:1.7">Thank you, {{ firstName }}. We'll be in touch within one business day.</p>
+        </div>
+      </sc-if>
+      <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+        <form onSubmit="{{ submit }}" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:18px">
+          <sc-for list="{{ fields }}" as="f" hint-placeholder-count="4">
+            <label style="display:flex;flex-direction:column;gap:8px">
+              <span style="font-size:0.58rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.62)">{{ f.label }}</span>
+              <input name="{{ f.name }}" type="{{ f.type }}" required="{{ f.required }}" placeholder="{{ f.placeholder }}" style="padding:14px 16px;border-radius:4px;border:1px solid rgba(42,184,212,0.14);background:rgba(3,8,16,0.6);color:#fff;font-size:0.88rem;font-weight:300;transition:all .3s">
+            </label>
+          </sc-for>
+          <label style="display:flex;flex-direction:column;gap:8px;grid-column:1/-1">
+            <span style="font-size:0.58rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.62)">Service Interest</span>
+            <select name="interest" style="padding:14px 16px;border-radius:4px;border:1px solid rgba(42,184,212,0.14);background:rgba(3,8,16,0.6);color:#fff;font-size:0.88rem;font-weight:300">
+              <sc-for list="{{ interests }}" as="o" hint-placeholder-count="5"><option value="{{ o }}">{{ o }}</option></sc-for>
+            </select>
+          </label>
+          <label style="display:flex;flex-direction:column;gap:8px;grid-column:1/-1">
+            <span style="font-size:0.58rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.62)">Message</span>
+            <textarea name="message" rows="4" placeholder="Tell us about your business" style="padding:14px 16px;border-radius:4px;border:1px solid rgba(42,184,212,0.14);background:rgba(3,8,16,0.6);color:#fff;font-size:0.88rem;font-weight:300;resize:vertical"></textarea>
+          </label>
+          <button type="submit" style="grid-column:1/-1;margin-top:6px;padding:18px;border:0;border-radius:4px;background:#2ab8d4;color:#030810;font-size:0.7rem;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;cursor:pointer;transition:all .4s cubic-bezier(0.22,0.61,0.36,1)" style-hover="background:#4dd9ef;transform:translateY(-3px);box-shadow:0 14px 40px rgba(42,184,212,0.4)">{{ submitLabel }}</button>
+        </form>
+      </sc-if>
+    </div>
+  </div>
+</section>
+
+<footer style="padding:80px 0 0;background:linear-gradient(180deg, rgba(6,12,24,0.82) 0%, rgba(6,12,24,0.75) 100%), url('https://vibe.filesafe.space/1787700865853874002/attachments/5ce77725-643e-4b94-bf6d-f9658ba08844.jpg') center top / cover no-repeat, #060c18;border-top:1px solid rgba(42,184,212,0.14)">
+  <div style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,4vw,40px)">
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px">
+      <span style="display:inline-flex;align-items:baseline;gap:8px;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:1.3rem;letter-spacing:0.08em;color:#fff"><span>WAVE PAY</span><span style="color:#4dd9ef">&amp;</span><span style="color:rgba(255,255,255,0.62);font-size:0.8em;letter-spacing:0.18em">STRATEGIES</span></span>
+      <span style="font-size:0.6rem;letter-spacing:0.5em;text-transform:uppercase;color:#4dd9ef">Where Business Flows</span>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:20px">
+        <sc-for list="{{ socials }}" as="so" hint-placeholder-count="3">
+          <a href="#" style="padding:9px 18px;border-radius:40px;border:1px solid rgba(42,184,212,0.32);font-size:0.6rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.86)" style-hover="color:#4dd9ef;border-color:#4dd9ef">{{ so }}</a>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:40px;margin-top:72px;padding-bottom:56px">
+      <sc-for list="{{ footerCols }}" as="col" hint-placeholder-count="3">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font-size:0.6rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:#2ab8d4;margin-bottom:6px">{{ col.title }}</span>
+          <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="4">
+            <a href="{{ l.href }}" style="font-size:0.86rem;color:rgba(255,255,255,0.62)" style-hover="color:#4dd9ef">{{ l.label }}</a>
+          </sc-for>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;padding:24px 0 32px;border-top:1px solid rgba(42,184,212,0.14);font-size:0.68rem;color:rgba(255,255,255,0.62)">
+      <span>© 2026 Wave Pay &amp; Strategies. All rights reserved.</span>
+      <div style="display:flex;gap:24px"><a href="#" style="color:rgba(255,255,255,0.62)" style-hover="color:#4dd9ef">Privacy</a><a href="#" style="color:rgba(255,255,255,0.62)" style-hover="color:#4dd9ef">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { w: typeof window !== 'undefined' ? window.innerWidth : 1200, menuOpen: false, active: '', counts: [0, 0, 0], sent: false, sending: false, firstName: '' };
+  navRef = React.createRef(); canvasRef = React.createRef(); bubbleRef = React.createRef(); statsRef = React.createRef();
+  stats = [{ v: 98, dec: 0, pre: '', suf: '%', label: 'Approval Rate' }, { v: 24, dec: 0, pre: '', suf: '+', label: 'Hour Funding' }, { v: 500, dec: 0, pre: '', suf: '+', label: 'Merchants Served' }];
+  svg = (kids) => React.createElement('svg', { viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.5, width: 46, height: 46 }, ...kids.map(([t, p], i) => React.createElement(t, { key: i, ...p })));
+  icons = {
+    card: this.svg([['rect', { x: 2, y: 5, width: 20, height: 14, rx: 2 }], ['line', { x1: 2, y1: 10, x2: 22, y2: 10 }]]),
+    mobile: this.svg([['rect', { x: 7, y: 2, width: 10, height: 18, rx: 2 }], ['line', { x1: 11, y1: 17, x2: 13, y2: 17 }]]),
+    pos: this.svg([['rect', { x: 4, y: 2, width: 16, height: 14, rx: 2 }], ['line', { x1: 8, y1: 20, x2: 16, y2: 20 }], ['line', { x1: 12, y1: 16, x2: 12, y2: 20 }], ['circle', { cx: 12, cy: 9, r: 2 }]]),
+    crm: this.svg([['path', { d: 'M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2' }], ['circle', { cx: 9, cy: 7, r: 4 }], ['path', { d: 'M23 21v-2a4 4 0 00-3-3.87' }], ['path', { d: 'M16 3.13a4 4 0 010 7.75' }]]),
+    ai: this.svg([['polygon', { points: '12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9' }], ['line', { x1: 12, y1: 2, x2: 12, y2: 21, opacity: 0.3 }]]),
+    strategy: this.svg([['circle', { cx: 12, cy: 12, r: 9 }], ['polyline', { points: '12,6 12,12 16,14' }]])
+  };
+
+  componentDidMount() {
+    this.onResize = () => this.setState({ w: window.innerWidth });
+    this.onScroll = () => {
+      const n = this.navRef.current, y = window.scrollY;
+      if (n) { n.style.background = y > 50 ? 'rgba(3,8,16,0.94)' : 'transparent'; n.style.backdropFilter = y > 50 ? 'blur(24px)' : 'none'; n.style.borderBottomColor = y > 50 ? 'rgba(42,184,212,0.14)' : 'transparent'; }
+      let act = '';
+      document.querySelectorAll('section[id]').forEach(s => { if (y >= s.offsetTop - 140) act = s.id; });
+      if (act !== this.state.active) this.setState({ active: act });
+    };
+    window.addEventListener('resize', this.onResize); window.addEventListener('scroll', this.onScroll, { passive: true }); this.onScroll();
+    this.startWaves(); this.startBubbles(); this.setupReveal(); this.setupStats();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize); window.removeEventListener('scroll', this.onScroll);
+    cancelAnimationFrame(this.raf); clearInterval(this.bubbleTimer); this.io && this.io.disconnect(); this.sio && this.sio.disconnect();
+  }
+  startWaves() {
+    const c = this.canvasRef.current; if (!c) return; const ctx = c.getContext('2d');
+    const layers = [{ amp: 28, freq: 0.007, speed: 0.01, y: 0.5, color: 'rgba(42,184,212,0.055)', w: 3 }, { amp: 18, freq: 0.011, speed: 0.016, y: 0.56, color: 'rgba(42,184,212,0.040)', w: 2 }, { amp: 38, freq: 0.005, speed: 0.007, y: 0.62, color: 'rgba(42,184,212,0.070)', w: 4 }, { amp: 12, freq: 0.017, speed: 0.02, y: 0.42, color: 'rgba(77,217,239,0.025)', w: 1.5 }, { amp: 22, freq: 0.009, speed: 0.013, y: 0.72, color: 'rgba(20,100,130,0.060)', w: 2.5 }];
+    let t = 0;
+    const draw = () => {
+      const dpr = window.devicePixelRatio || 1, W = c.clientWidth, H = c.clientHeight;
+      if (c.width !== W * dpr) { c.width = W * dpr; c.height = H * dpr; }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+      layers.forEach(L => {
+        ctx.beginPath();
+        for (let x = 0; x <= W; x += 3) { const y = H * L.y + Math.sin(x * L.freq + t * L.speed * 100) * L.amp + Math.sin(x * L.freq * 1.8 + t * L.speed * 60) * L.amp * 0.35 + Math.sin(x * L.freq * 0.6 + t * L.speed * 40) * L.amp * 0.2; x ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+        ctx.strokeStyle = L.color; ctx.lineWidth = L.w; ctx.stroke();
+      });
+      t++; this.raf = requestAnimationFrame(draw);
+    };
+    draw();
+  }
+  spawnBubble(initial) {
+    const box = this.bubbleRef.current; if (!box) return;
+    const b = document.createElement('div'), size = Math.random() * 8 + 3, dur = Math.random() * 18 + 12, delay = Math.random() * 6;
+    b.style.cssText = `position:absolute;top:0;left:${Math.random() * 100}%;width:${size}px;height:${size}px;border-radius:50%;border:1px solid rgba(77,217,239,0.35);background:rgba(77,217,239,0.04);animation:wpBubble ${dur}s linear ${delay}s infinite backwards;opacity:0;`;
+    box.appendChild(b); setTimeout(() => b.remove(), (dur + delay) * 1000);
+  }
+  startBubbles() { for (let i = 0; i < 18; i++) this.spawnBubble(true); this.bubbleTimer = setInterval(() => this.spawnBubble(false), 1000); }
+  setupReveal() {
+    const els = document.querySelectorAll('[data-reveal]');
+    this.io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return; const el = e.target; const d = +el.getAttribute('data-delay') || 0;
+      setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, d); this.io.unobserve(el);
+    }), { threshold: 0.1 });
+    els.forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(44px)'; el.style.transition = 'opacity 1s cubic-bezier(0.22,0.61,0.36,1), transform 1s cubic-bezier(0.22,0.61,0.36,1)'; this.io.observe(el); });
+  }
+  setupStats() {
+    const el = this.statsRef.current; if (!el) return;
+    this.sio = new IntersectionObserver(es => { if (!es[0].isIntersecting) return; this.sio.disconnect();
+      const t0 = performance.now(), D = 2000;
+      const tick = now => { const p = Math.min(1, (now - t0) / D), e = 1 - Math.pow(1 - p, 4); this.setState({ counts: this.stats.map(s => s.v * e) }); if (p < 1) requestAnimationFrame(tick); };
+      requestAnimationFrame(tick);
+    }, { threshold: 0.3 });
+    this.sio.observe(el);
+  }
+  submit = async e => {
+    e.preventDefault(); const fd = new FormData(e.target); const name = (fd.get('name') || '').trim(); const [firstName, ...rest] = name.split(' ');
+    const v = k => String(fd.get(k) || '').trim();
+    const payload = {
+      type: 'external_form_submission', timestamp: Date.now(), formId: 'wave-pay-contact',
+      formData: { first_name: firstName || '', last_name: rest.join(' '), email: v('email'), phone: v('phone'), organization: v('company'), calendar_notes: v('message') },
+      formLabels: { first_name: 'First Name', last_name: 'Last Name', email: 'Email', phone: 'Phone', organization: 'Company', calendar_notes: 'Message' },
+      url: location.href, title: document.title, path: location.pathname, userAgent: navigator.userAgent,
+      trackingId: 'tk_e43b506bda8c48aea3d317f0e65937bf', locationId: 'UeLEt9NO5rW0V7dULLD9', projectId: '1787700865853874002',
+      sessionId: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
+      properties: { deviceType: /Mobile|Android|iPhone/i.test(navigator.userAgent) ? 'mobile' : 'desktop', source: 'ai_studio', projectId: '1787700865853874002', formName: 'Wave Pay Contact Form' }
+    };
+    const extra = { customFields: { RrKfl4M0kFMmFRMQXxcf: { value: v('interest'), label: 'Service Interest' } } };
+    this.setState({ sending: true });
+    // TODO: swap for the endpoint inside src/wave/tracking.ts postTrackingEvent()
+    if (window.postTrackingEvent) { try { window.postTrackingEvent(payload, extra); } catch (err) {} }
+    const form = e.target;
+    setTimeout(() => { form.reset && form.reset(); this.setState({ sent: true, sending: false, firstName: firstName || 'friend' }); }, 1400);
+  };
+  renderVals() {
+    const { w, active, counts } = this.state; const isDesktop = w > 1000;
+    const nav = [['Services', 'services'], ['Payments', 'payments'], ['CRM & AI', 'crm'], ['About', 'about']];
+    const words = ['Merchant Services', 'POS Systems', 'AI Automation', 'CRM Strategy', 'Payment Processing', 'Business Growth'];
+    const row = words.flatMap((t, i) => [React.createElement('span', { key: 't' + i, style: { fontSize: '0.64rem', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.86)', whiteSpace: 'nowrap' } }, t), React.createElement('span', { key: 'd' + i, style: { color: '#4dd9ef', fontSize: '0.64rem' } }, '●')]);
+    const marquee = React.createElement('div', { style: { display: 'flex', alignItems: 'center', gap: 28, width: 'max-content', animation: 'wpMarquee 32s linear infinite' } }, ...row, ...row.map(el => React.cloneElement(el, { key: 'b' + el.key })));
+    const mk = (pre, i) => i;
+    return {
+      navRef: this.navRef, canvasRef: this.canvasRef, bubbleRef: this.bubbleRef, statsRef: this.statsRef,
+      isDesktop, isMobile: !isDesktop, menuOpen: !isDesktop && this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })), closeMenu: () => this.setState({ menuOpen: false }),
+      navItems: nav.map(([label, id]) => ({ label, href: '#' + id, color: active === id ? '#4dd9ef' : 'rgba(255,255,255,0.86)' })),
+      marquee,
+      services: [
+        { num: '01', title: 'Credit Card Processing', icon: this.icons.card, body: 'Secure, efficient payment acceptance with competitive rates that respect your margins. Countertop terminals, virtual terminals, online gateways, recurring billing and invoicing, all in one.' },
+        { num: '02', title: 'Mobile Payments', icon: this.icons.mobile, featured: true, body: 'Turn any iPhone or Android into a contactless terminal. Tap to Pay with no hardware required. Accept payments anywhere your business takes you.' },
+        { num: '03', title: 'POS Systems', icon: this.icons.pos, body: 'From simple mobile solutions to fully integrated multi location systems, manage transactions, inventory, employees and reporting from one centralized platform.' },
+        { num: '04', title: 'CRM Solutions', icon: this.icons.crm, body: 'Organize leads, manage communications, automate follow ups, track sales opportunities and improve customer engagement, so you spend less time on admin and more time closing.' },
+        { num: '05', title: 'AI Automations', icon: this.icons.ai, body: 'Automated text and email campaigns, AI voice assistants, appointment reminders, lead nurturing and workflow automation. Leverage technology to operate at scale.' },
+        { num: '06', title: 'Business Strategies', icon: this.icons.strategy, body: 'Strategic guidance through our partner network, reputation management and growth planning. A true business solutions partner in your corner.' }
+      ].map((s, i) => ({ ...s, delay: (i % 3) * 120, border: s.featured ? 'rgba(42,184,212,0.28)' : 'rgba(42,184,212,0.14)', featured: !!s.featured })),
+      payPoints: ['Interchange plus pricing with no hidden fees', 'Next day funding on every batch', 'Tap, chip, swipe, online and mobile', 'PCI-DSS compliant, end to end encrypted'],
+      keypad: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '·', '0', '✓'],
+      stats: this.stats.map((s, i) => ({ label: s.label, display: s.pre + counts[i].toLocaleString(undefined, { minimumFractionDigits: s.dec, maximumFractionDigits: s.dec }) + s.suf })),
+      aiFeatures: [
+        { icon: '⚡', title: 'Automated Follow Ups', desc: 'AI triggered text, email and voice sequences that nurture leads at exactly the right moment.' },
+        { icon: '♦', title: 'Pipeline Intelligence', desc: 'Predictive lead scoring tells you which opportunities are ready to close before you ask.' },
+        { icon: '~', title: 'Workflow Automation', desc: 'Connect payments, CRM, appointments and communications into one seamless machine.' }
+      ],
+      crmRows: [{"initials":"JM","name":"Jamie M.","status":"Hot Lead","fg":"#ff8080","bg":"rgba(255,80,80,0.12)","val":"$12,400","rowBg":"rgba(42,184,212,0.07)","rowBorder":"rgba(42,184,212,0.14)"},{"initials":"SR","name":"Sofia R.","status":"Proposal Sent","fg":"#ffb732","bg":"rgba(255,180,50,0.12)","val":"$8,200","rowBg":"transparent","rowBorder":"transparent"},{"initials":"KD","name":"Kai D.","status":"New Contact","fg":"#2ab8d4","bg":"rgba(42,184,212,0.12)","val":"$5,600","rowBg":"transparent","rowBorder":"transparent"},{"initials":"TR","name":"Tyler R.","status":"Follow Up","fg":"#ffb732","bg":"rgba(255,180,50,0.12)","val":"$3,800","rowBg":"transparent","rowBorder":"transparent"}],
+      industries: ['Restaurants', 'Retail', 'Health & Wellness', 'Professional Services', 'Home Services', 'E-commerce'],
+      sent: this.state.sent, notSent: !this.state.sent, firstName: this.state.firstName, submit: this.submit,
+      submitLabel: this.state.sending ? 'Sending…' : 'Send Message',
+      fields: [
+        { name: 'name', label: 'Name', type: 'text', required: true, placeholder: 'Full name' },
+        { name: 'company', label: 'Company', type: 'text', required: false, placeholder: 'Business name' },
+        { name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'you@company.com' },
+        { name: 'phone', label: 'Phone', type: 'tel', required: false, placeholder: '(000) 000 0000' }
+      ],
+      interests: ['Credit Card Processing', 'Mobile Payments', 'POS Systems', 'CRM Solutions', 'AI Automations', 'Business Strategies'],
+      socials: ['Instagram', 'Facebook', 'LinkedIn'],
+      footerCols: [
+        { title: 'Services', links: [['Merchant Services', '#services'], ['POS Systems', '#payments'], ['AI CRM', '#crm'], ['Business Strategies', '#services']] },
+        { title: 'Company', links: [['About', '#about'], ['Reviews', '#reviews'], ['Reputation Management', 'https://review.wavepayandstrategies.com'], ['Contact', '#contact']] },
+        { title: 'Contact', links: [['+1 904-373-8591', 'tel:+19043738591'], ['info@wavepayandstrategies.com', 'mailto:info@wavepayandstrategies.com'], ['wavepayandstrategies.com', 'https://wavepayandstrategies.com']] }
+      ].map(c => ({ title: c.title, links: c.links.map(([label, href]) => ({ label, href })) }))
+    };
+  }
+}
+</script>
+</body>
+</html>
